@@ -12,10 +12,16 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        
+        // Mempercayai reverse proxy Railway agar HTTPS terdeteksi dengan benar
+        $middleware->trustProxies(at: '*');
+
+        // Middleware role
         $middleware->alias([
             'role' => RoleMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
-    })->create();
+    })
+    ->create();
